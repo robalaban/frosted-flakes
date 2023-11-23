@@ -16,6 +16,7 @@
 
       perSystem = { pkgs, lib, config, ... }:
         let
+          inherit (inputs.self + "./" + ) package;
           javaVersion = 17;
           overlays = [
             (final: prev: rec {
