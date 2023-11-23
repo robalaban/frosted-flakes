@@ -8,5 +8,6 @@ Currently only targetting `aarch64-darwin` (Apple Silicon).
 | --------- | ------------- |
 | Rust      |      ✅       |
 | Node      |      ✅       |
-| Python    | WIP  |§
+| Java      |      ✅       |
+| Python    | WIP  |
 | Go        | WIP  |

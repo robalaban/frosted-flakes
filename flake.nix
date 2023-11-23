@@ -11,6 +11,10 @@
         path = ./node;
         description = "A NodeJS template";
       };
+      java = {
+        path = ./java;
+        description = "A Java template";
+      };
     };
   };
 }
