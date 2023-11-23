@@ -7,6 +7,6 @@ Currently only targetting `aarch64-darwin` (Apple Silicon).
 | Language  | Second Header |
 | --------- | ------------- |
 | Rust      |      ✅       |
-| Python    | WIP  |
+| Node      |      ✅       |
+| Python    | WIP  |§
 | Go        | WIP  |
-| Node      | WIP  |

@@ -7,6 +7,10 @@
         path = ./rust;
         description = "A rust template";
       };
+      node = {
+        path = ./node;
+        description = "A NodeJS template";
+      };
     };
   };
 }
