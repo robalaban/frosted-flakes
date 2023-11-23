@@ -15,7 +15,7 @@
       systems = [ "aarch64-darwin" ];
 
       perSystem = { pkgs, lib, config, ... }:
-        let inherit (inputs.self) package;
+        let
           javaVersion = 17;
           overlays = [
             (final: prev: rec {
@@ -24,6 +24,9 @@
             })
           ];
         in {
+          packages = {
+            src = inputs.self;
+          };
           devShells.default =
             pkgs.mkShell { packages = with pkgs; [ gradle jdk ]; };
         };
