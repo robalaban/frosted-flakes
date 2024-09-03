@@ -16,10 +16,5 @@
         description = "A Java template";
       };
     };
-
-    templateFlake = template: {
-      description = "Template for ${template}";
-      path = ./. + "/${template}";
-    };
   };
 }
