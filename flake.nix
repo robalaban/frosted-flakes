@@ -17,4 +17,9 @@
       };
     };
   };
+
+  templateFlake = template: {
+    description = "Template for ${template}";
+    path = self.templates.${template}.path;
+  };
 }
