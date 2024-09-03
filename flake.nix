@@ -1,7 +1,7 @@
 {
   description = "Frosted flakes, just add milk!";
 
-  outputs = { self, nixpkgs, ... }: {
+  outputs = { self, nixpkgs }: {
     templates = {
       rust = {
         path = ./rust;
@@ -16,10 +16,10 @@
         description = "A Java template";
       };
     };
-  };
 
-  templateFlake = template: {
-    description = "Template for ${template}";
-    path = self.templates.${template}.path;
+    templateFlake = template: {
+      description = "Template for ${template}";
+      path = ./. + "/${template}";
+    };
   };
 }
