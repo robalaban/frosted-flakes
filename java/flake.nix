@@ -2,18 +2,16 @@
   description = "Java template";
 
   inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
     };
-
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
-  outputs = inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "aarch64-darwin" ];
-
+  outputs = inputs@{ self, nixpkgs, flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "aarch64-darwin" "x86_64-darwin" "x86_64-linux" ];
       perSystem = { pkgs, lib, config, ... }:
         let
           javaVersion = 17;
@@ -25,11 +23,10 @@
           ];
         in {
           packages = {
-            src = inputs.self;
+            src = self;
           };
           devShells.default =
             pkgs.mkShell { packages = with pkgs; [ gradle jdk ]; };
         };
     };
-
 }

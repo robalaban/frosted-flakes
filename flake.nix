@@ -12,17 +12,14 @@
       rust = {
         path = ./rust;
         description = "A rust template";
-        postInitCommand = "direnv allow";
       };
       node = {
         path = ./node;
         description = "A NodeJS template";
-        postInitCommand = "direnv allow";
       };
       java = {
         path = ./java;
         description = "A Java template";
-        postInitCommand = "direnv allow";
       };
     };
   };
