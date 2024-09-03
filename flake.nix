@@ -12,31 +12,18 @@
       rust = {
         path = ./rust;
         description = "A rust template";
+        postInitCommand = "direnv allow";
       };
       node = {
         path = ./node;
         description = "A NodeJS template";
+        postInitCommand = "direnv allow";
       };
       java = {
         path = ./java;
         description = "A Java template";
+        postInitCommand = "direnv allow";
       };
-    };
-
-    apps.${system}.init = {
-      type = "app";
-      program = pkgs.writeShellScriptBin "init-flake" ''
-        if [ $# -ne 2 ]; then
-          echo "Usage: init-flake <template> <project-name>"
-          exit 1
-        fi
-        template=$1
-        project_name=$2
-        mkdir -p "$project_name" && \
-        cd "$project_name" && \
-        ${pkgs.nix}/bin/nix flake init -t "github:robalaban/frosted-flakes#$template" && \
-        ${pkgs.direnv}/bin/direnv allow
-      ''.outPath;
     };
   };
 }
