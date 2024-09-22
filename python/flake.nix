@@ -1,5 +1,5 @@
 {
-  description = "A Python project using uv as the package manager";
+  description = "A Python Flake using uv as the package manager";
 
   inputs = {
     flake-parts = {
@@ -17,9 +17,6 @@
       perSystem = { pkgs, ... }:
         let
           myPythonEnv = pkgs.python312.withPackages (ps: with ps; [
-            pip
-            virtualenv
-            poetry
             numpy
             pandas
           ]);
@@ -30,7 +27,7 @@
           };
           devShells = {
             default = pkgs.mkShell {
-              packages = [ myPythonEnv, pkgs.uv ];
+              packages = [ myPythonEnv pkgs.uv pkgs.ruff ];
             };
           };
         };
