@@ -10,24 +10,27 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
-  outputs = { self, nixpkgs, flake-parts, ... }:
-    flake-parts.lib.mkFlake { inherit self nixpkgs; } {
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "aarch64-darwin" ];
 
       perSystem = { pkgs, ... }:
+        let
+          myPythonEnv = pkgs.python312.withPackages (ps: with ps; [
+            pip
+            virtualenv
+            poetry
+            numpy
+            pandas
+          ]);
+        in
         {
           packages = {
-            default = pkgs.python312.withPackages (ps: with ps; [
-              pip
-              virtualenv
-              poetry
-              numpy
-              pandas
-            ]);
+            default = myPythonEnv;
           };
           devShells = {
             default = pkgs.mkShell {
-              packages = with pkgs; [ python312 ];
+              packages = [ myPythonEnv, pkgs.uv ];
             };
           };
         };
