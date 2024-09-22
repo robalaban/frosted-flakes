@@ -10,11 +10,11 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
-  outputs = { self, nixpkgs, flake-parts }:
-    flake-parts.lib.mkFlake { inherit inputs; } {
+  outputs = { self, nixpkgs, flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit self nixpkgs; } {
       systems = [ "aarch64-darwin" ];
 
-      perSystem = { system, pkgs, ... }:
+      perSystem = { pkgs, ... }:
         {
           packages = {
             default = pkgs.python312.withPackages (ps: with ps; [
