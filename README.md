@@ -20,6 +20,7 @@ Currently, Frosted Flakes offers templates for:
 - Rust
 - Node.js
 - Java
+- Python
 
 More templates will be added in the future.
 
