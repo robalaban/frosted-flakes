@@ -21,6 +21,10 @@
         path = ./java;
         description = "A Java template";
       };
+      python = {
+        path = ./python;
+        description = "A Python template";
+      };
     };
   };
 }
