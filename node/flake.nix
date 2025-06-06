@@ -1,39 +1,64 @@
 {
-  description = "NodeJs template";
+  description = "Node.js development environment";
 
   inputs = {
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "aarch64-darwin" ];
+      systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
 
       perSystem = { pkgs, lib, config, ... }:
-        let inherit (lib.importTOML (inputs.self + "/Cargo.toml")) package;
+        let
+          # Use the latest LTS Node.js version
+          nodejs = pkgs.nodejs_22;
         in {
           packages = {
-            default = pkgs.rustPlatform.buildRustPackage {
-              inherit (package) version;
-
-              cargoLock.lockFile = (inputs.self + "/Cargo.lock");
-              pname = package.name;
-              src = inputs.self;
-            };
+            default = nodejs;
           };
 
           devShells.default = pkgs.mkShell {
-            packages = with pkgs; [ node nvm pnpm ];
+            packages = with pkgs; [
+              # Node.js and package managers (pnpm as primary)
+              nodejs
+              nodePackages.pnpm
+              yarn
+              
+              # Development tools
+              nodePackages.typescript
+              nodePackages.typescript-language-server
+              nodePackages.eslint
+              nodePackages.prettier
+              nodePackages.nodemon
+              
+              # Build tools
+              nodePackages.vite
+              nodePackages.webpack-cli
+            ];
+            
+            shellHook = ''
+              echo "🟢 Node.js development environment activated!"
+              echo "Node.js version: $(node --version)"
+              echo "pnpm version: $(pnpm --version)"
+              echo "Primary package manager: pnpm"
+              echo "Available tools: pnpm, yarn, typescript, eslint, prettier"
+              echo ""
+              echo "Quick start:"
+              echo "  pnpm init                # Initialize new project"
+              echo "  pnpm add <package>       # Install dependencies"
+              echo "  pnpm run dev             # Start development server"
+              echo "  pnpm dlx create-vite     # Create Vite project"
+            '';
           };
 
           apps = {
             default = {
-              program = "${config.packages.default}/bin/${package.name}";
+              program = "${nodejs}/bin/node";
               type = "app";
             };
           };
