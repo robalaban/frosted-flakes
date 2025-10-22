@@ -2,11 +2,11 @@
   description = "Node.js development environment";
 
   inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
     };
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
   outputs = inputs:
@@ -17,7 +17,8 @@
         let
           # Use the latest LTS Node.js version
           nodejs = pkgs.nodejs_22;
-        in {
+        in
+        {
           packages = {
             default = nodejs;
           };
@@ -28,19 +29,15 @@
               nodejs
               nodePackages.pnpm
               yarn
-              
+
               # Development tools
               nodePackages.typescript
               nodePackages.typescript-language-server
               nodePackages.eslint
               nodePackages.prettier
               nodePackages.nodemon
-              
-              # Build tools
-              nodePackages.vite
-              nodePackages.webpack-cli
             ];
-            
+
             shellHook = ''
               echo "🟢 Node.js development environment activated!"
               echo "Node.js version: $(node --version)"

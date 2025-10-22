@@ -1,5 +1,7 @@
 # Frosted Flakes 🥣
 
+[![Test Flakes](https://github.com/robalaban/frosted-flakes/actions/workflows/test.yml/badge.svg)](https://github.com/robalaban/frosted-flakes/actions/workflows/test.yml)
+
 Frosted Flakes is a collection of Nix flake templates for quickly bootstrapping development environments. Just add milk!
 
 ## What is Frosted Flakes?

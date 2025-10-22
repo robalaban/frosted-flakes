@@ -12,35 +12,33 @@
   outputs = inputs@{ self, nixpkgs, flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
-      
+
       perSystem = { pkgs, lib, config, ... }:
         let
           # Use JDK 17 (LTS)
           javaVersion = 17;
           jdk = pkgs.jdk17;
-        in {
+        in
+        {
           packages = {
             default = jdk;
           };
-          
+
           devShells.default = pkgs.mkShell {
             packages = with pkgs; [
               # Core Java development
               jdk
-              
+
               # Build tools
               gradle
               maven
-              
+
               # Additional development tools
-              jdt-language-server  # Java language server for IDEs
-              google-java-format   # Code formatter
-              
-              # Analysis and testing tools
-              spotbugs            # Static analysis
-              checkstyle          # Code style checker
+              jdt-language-server # Java language server for IDEs
+              google-java-format # Code formatter
+              checkstyle # Code style checker
             ];
-            
+
             shellHook = ''
               echo "☕ Java development environment activated!"
               echo "Java version: $(java -version 2>&1 | head -n 1)"
@@ -55,11 +53,11 @@
               echo "JDK Location: ${jdk}"
               export JAVA_HOME="${jdk}"
             '';
-            
+
             # Set JAVA_HOME for the shell
             JAVA_HOME = jdk;
           };
-          
+
           apps = {
             default = {
               program = "${jdk}/bin/java";

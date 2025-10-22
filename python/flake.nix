@@ -2,11 +2,11 @@
   description = "Python development environment with uv package manager";
 
   inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
     };
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
   outputs = inputs:
@@ -17,7 +17,7 @@
         let
           # Use the latest stable Python version
           python = pkgs.python312;
-          
+
           # Create a Python environment with common packages
           pythonEnv = python.withPackages (ps: with ps; [
             # Data science and scientific computing
@@ -26,18 +26,18 @@
             matplotlib
             scipy
             scikit-learn
-            
+
             # Web development
             requests
             flask
             fastapi
-            
+
             # Development tools
             pytest
             black
             isort
             mypy
-            
+
             # Jupyter and notebooks
             jupyter
             ipython
@@ -47,18 +47,18 @@
           packages = {
             default = pythonEnv;
           };
-          
+
           devShells = {
             default = pkgs.mkShell {
               packages = with pkgs; [
                 pythonEnv
-                
+
                 # Modern Python package manager and tools
-                uv          # Fast Python package installer
-                ruff        # Fast Python linter
-                pyright     # Python language server
+                uv # Fast Python package installer
+                ruff # Fast Python linter
+                pyright # Python language server
               ];
-              
+
               shellHook = ''
                 echo "🐍 Python development environment activated!"
                 echo "Python version: $(python --version)"
@@ -78,7 +78,7 @@
               '';
             };
           };
-          
+
           apps = {
             default = {
               program = "${pythonEnv}/bin/python";

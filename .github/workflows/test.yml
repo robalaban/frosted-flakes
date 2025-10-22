@@ -1,0 +1,160 @@
+name: Test Flakes
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-templates:
+    name: Test ${{ matrix.template }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        template: [rust, node, python, java]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v15
+
+      - name: Setup Nix cache
+        uses: DeterminateSystems/magic-nix-cache-action@v8
+
+      - name: Test template - ${{ matrix.template }}
+        run: |
+          # Create test directory
+          TEST_DIR=$(mktemp -d)
+          cd "$TEST_DIR"
+
+          # Initialize template
+          echo "Initializing ${{ matrix.template }} template..."
+          nix flake init -t ${{ github.workspace }}#${{ matrix.template }}
+
+          # Enter dev shell and run validation commands
+          echo "Testing ${{ matrix.template }} development environment..."
+
+          case "${{ matrix.template }}" in
+            rust)
+              nix develop --command bash -c "
+                set -e
+                echo 'Validating Rust toolchain...'
+                cargo --version
+                rustc --version
+                clippy --version || cargo clippy --version
+                rustfmt --version
+                rust-analyzer --version
+                cargo-watch --version
+                cargo-edit --version || cargo set-version --help
+                echo 'All Rust tools validated successfully!'
+              "
+              ;;
+            node)
+              nix develop --command bash -c "
+                set -e
+                echo 'Validating Node.js environment...'
+                node --version
+                pnpm --version
+                yarn --version
+                tsc --version
+                eslint --version
+                prettier --version
+                nodemon --version
+                vite --version
+                echo 'All Node.js tools validated successfully!'
+              "
+              ;;
+            python)
+              nix develop --command bash -c "
+                set -e
+                echo 'Validating Python environment...'
+                python --version
+                uv --version
+                ruff --version
+                pyright --version
+                black --version
+                isort --version
+                mypy --version
+                jupyter --version
+                pytest --version
+                python -c 'import numpy, pandas, matplotlib, scipy, sklearn, requests, flask, fastapi'
+                echo 'All Python tools and packages validated successfully!'
+              "
+              ;;
+            java)
+              nix develop --command bash -c "
+                set -e
+                echo 'Validating Java environment...'
+                java -version
+                javac -version
+                gradle --version
+                mvn --version
+                test -n \"\$JAVA_HOME\" && echo \"JAVA_HOME is set to \$JAVA_HOME\"
+                echo 'All Java tools validated successfully!'
+              "
+              ;;
+          esac
+
+      - name: Clean up test directory
+        if: always()
+        run: rm -rf "$TEST_DIR" || true
+
+  check-root-flake:
+    name: Check root flake
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v15
+
+      - name: Setup Nix cache
+        uses: DeterminateSystems/magic-nix-cache-action@v8
+
+      - name: Check flake
+        run: nix flake check
+
+      - name: Show flake metadata
+        run: nix flake show
+
+      - name: Test root dev shell
+        run: |
+          nix develop --command bash -c "
+            set -e
+            echo 'Validating root development environment...'
+            nixpkgs-fmt --version
+            nil --version
+            direnv --version
+            echo 'Root dev shell validated successfully!'
+          "
+
+  format-check:
+    name: Check Nix formatting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v15
+
+      - name: Check Nix file formatting
+        run: |
+          nix develop --command bash -c "
+            set -e
+            echo 'Checking Nix file formatting...'
+            nixpkgs-fmt --check flake.nix
+            nixpkgs-fmt --check rust/flake.nix
+            nixpkgs-fmt --check node/flake.nix
+            nixpkgs-fmt --check python/flake.nix
+            nixpkgs-fmt --check java/flake.nix
+            echo 'All Nix files are properly formatted!'
+          "
