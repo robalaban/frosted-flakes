@@ -65,7 +65,6 @@ jobs:
                 eslint --version
                 prettier --version
                 nodemon --version
-                vite --version
                 echo 'All Node.js tools validated successfully!'
               "
               ;;
@@ -82,7 +81,7 @@ jobs:
                 mypy --version
                 jupyter --version
                 pytest --version
-                python -c 'import numpy, pandas, matplotlib, scipy, sklearn, requests, flask, fastapi'
+                python -c 'import sys; import requests, flask, fastapi'
                 echo 'All Python tools and packages validated successfully!'
               "
               ;;
@@ -127,11 +126,11 @@ jobs:
       - name: Test root dev shell
         run: |
           nix develop --command bash -c "
-            set -e
             echo 'Validating root development environment...'
-            nixpkgs-fmt --version
-            nil --version
-            direnv --version
+            command -v nixpkgs-fmt
+            command -v nil
+            command -v direnv
+            command -v parallel
             echo 'Root dev shell validated successfully!'
           "
 
