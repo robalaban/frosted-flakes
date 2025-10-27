@@ -39,6 +39,11 @@ Frosted Flakes provides pre-configured, reproducible development environments fo
 - **Build Tools**: Gradle, Maven
 - **Tools**: Language server, Google Java Format, SpotBugs, Checkstyle
 
+### 🔵 Go
+- **Toolchain**: Go (latest version)
+- **Tools**: gopls (LSP), delve (debugger), golangci-lint, goimports
+- **Utilities**: gomodifytags, impl, gotestsum, go-migrate
+
 ## Cross-Platform Support
 
 All templates support:
@@ -76,6 +81,9 @@ nix flake init -t github:robalaban/frosted-flakes#python
 
 # Java development environment
 nix flake init -t github:robalaban/frosted-flakes#java
+
+# Go development environment
+nix flake init -t github:robalaban/frosted-flakes#go
 ```
 
 ### Automatic Environment with direnv
@@ -156,6 +164,21 @@ nix develop
 gradle init
 gradle build
 mvn archetype:generate
+```
+
+### Go Development
+```bash
+# Initialize Go project
+mkdir my-go-app && cd my-go-app
+nix flake init -t github:robalaban/frosted-flakes#go
+nix develop
+
+# Available tools
+go mod init example.com/myapp
+go get github.com/gin-gonic/gin
+go run .
+go test ./...
+golangci-lint run
 ```
 
 ## Requirements

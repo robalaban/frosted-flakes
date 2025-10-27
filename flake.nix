@@ -27,6 +27,10 @@
           path = ./python;
           description = "A Python development environment with uv package manager and common tools";
         };
+        go = {
+          path = ./go;
+          description = "A Go development environment with the latest Go toolchain and development tools";
+        };
       };
 
       # Add a convenient development shell for working on the templates themselves
@@ -42,7 +46,7 @@
             ];
             shellHook = ''
               echo "🥣 Welcome to Frosted Flakes development!"
-              echo "Available templates: rust, node, java, python"
+              echo "Available templates: rust, node, java, python, go"
               echo "Use 'nix flake show' to see all available templates"
               echo ""
               echo "Run './scripts/test-all.sh' to test all templates locally"

@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        template: [rust, node, python, java]
+        template: [rust, node, python, java, go]
 
     steps:
       - name: Checkout repository
@@ -97,6 +97,19 @@ jobs:
                 echo 'All Java tools validated successfully!'
               "
               ;;
+            go)
+              nix develop --command bash -c "
+                set -e
+                echo 'Validating Go environment...'
+                go version
+                gofmt -h > /dev/null
+                gopls version
+                golangci-lint --version
+                dlv version
+                gotestsum --version
+                echo 'All Go tools validated successfully!'
+              "
+              ;;
           esac
 
       - name: Clean up test directory
@@ -155,5 +168,6 @@ jobs:
             nixpkgs-fmt --check node/flake.nix
             nixpkgs-fmt --check python/flake.nix
             nixpkgs-fmt --check java/flake.nix
+            nixpkgs-fmt --check go/flake.nix
             echo 'All Nix files are properly formatted!'
           "

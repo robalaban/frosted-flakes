@@ -133,6 +133,25 @@ test_template() {
         return 1
       fi
       ;;
+    go)
+      if nix develop --command bash -c "
+        set -e
+        go version &>/dev/null && \
+        gofmt -h &>/dev/null && \
+        gopls version &>/dev/null && \
+        golangci-lint --version &>/dev/null && \
+        dlv version &>/dev/null && \
+        gotestsum --version &>/dev/null
+      " 2>&1; then
+        echo -e "${GREEN}✓ Go template passed${NC}"
+        PASSED_TESTS+=("$test_name")
+        return 0
+      else
+        echo -e "${RED}✗ Go template failed${NC}"
+        FAILED_TESTS+=("$test_name")
+        return 1
+      fi
+      ;;
   esac
 }
 
@@ -145,7 +164,7 @@ export -f test_template
 export REPO_ROOT RED GREEN YELLOW NC BLUE
 
 # Run all template tests in parallel and collect results
-parallel --will-cite --jobs 4 --line-buffer test_template ::: rust node python java || true
+parallel --will-cite --jobs 5 --line-buffer test_template ::: rust node python java go || true
 
 echo ""
 echo -e "${BLUE}Running root flake checks...${NC}"
@@ -184,7 +203,8 @@ if nix develop --command bash -c "
   nixpkgs-fmt --check rust/flake.nix &>/dev/null && \
   nixpkgs-fmt --check node/flake.nix &>/dev/null && \
   nixpkgs-fmt --check python/flake.nix &>/dev/null && \
-  nixpkgs-fmt --check java/flake.nix &>/dev/null
+  nixpkgs-fmt --check java/flake.nix &>/dev/null && \
+  nixpkgs-fmt --check go/flake.nix &>/dev/null
 " 2>&1; then
   echo -e "${GREEN}✓ Format check passed${NC}"
   PASSED_TESTS+=("format-check")
