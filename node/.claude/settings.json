@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nix develop*)",
+      "Bash(nix flake *)",
+      "Bash(nix build *)",
+      "Bash(git *)",
+      "Bash(pnpm *)",
+      "Bash(yarn *)",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(node *)",
+      "Bash(prettier *)",
+      "Bash(eslint *)",
+      "Bash(tsc *)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

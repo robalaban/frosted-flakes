@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nix develop*)",
+      "Bash(nix flake *)",
+      "Bash(nix build *)",
+      "Bash(git *)",
+      "Bash(go *)",
+      "Bash(golangci-lint *)",
+      "Bash(gotestsum *)",
+      "Bash(dlv *)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
