@@ -21,7 +21,7 @@
         };
         java = {
           path = ./java;
-          description = "A Java 17 development environment with JDK and Gradle";
+          description = "A Java 21 development environment with JDK and Gradle";
         };
         python = {
           path = ./python;

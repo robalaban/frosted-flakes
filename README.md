@@ -35,7 +35,7 @@ Frosted Flakes provides pre-configured, reproducible development environments fo
 - **Libraries**: numpy, pandas, matplotlib, scipy, scikit-learn, requests, flask, fastapi, pytest, jupyter
 
 ### ☕ Java
-- **Runtime**: JDK 17 (LTS)
+- **Runtime**: JDK 21 (LTS)
 - **Build Tools**: Gradle, Maven
 - **Tools**: Language server, Google Java Format, SpotBugs, Checkstyle
 

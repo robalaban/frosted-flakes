@@ -15,9 +15,9 @@
 
       perSystem = { pkgs, lib, config, ... }:
         let
-          # Use JDK 17 (LTS)
-          javaVersion = 17;
-          jdk = pkgs.jdk17;
+          # Use JDK 21 (LTS)
+          javaVersion = 21;
+          jdk = pkgs.jdk21;
         in
         {
           packages = {

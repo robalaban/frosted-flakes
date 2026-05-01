@@ -165,7 +165,7 @@ The README.md displays a status badge showing the current build status from GitH
 - **Rust template** (rust/flake.nix:18-21): Dynamically reads `Cargo.toml` to extract package name/version, with fallback defaults if file doesn't exist
 - **Node template** (node/flake.nix:18-19): Uses `nodejs_22` (latest LTS)
 - **Python template** (python/flake.nix:22-44): Creates a pre-configured Python environment with common data science and web packages
-- **Java template** (java/flake.nix:18-20): Uses JDK 17 (LTS) and sets `JAVA_HOME` environment variable
+- **Java template** (java/flake.nix:18-20): Uses JDK 21 (LTS) and sets `JAVA_HOME` environment variable
 
 ### Flake Parts Integration
 
