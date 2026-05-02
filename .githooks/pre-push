@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Run the full test harness before pushing so CI doesn't fail.
+# Skip with: git push --no-verify
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+exec "$REPO_ROOT/scripts/test-all.sh"

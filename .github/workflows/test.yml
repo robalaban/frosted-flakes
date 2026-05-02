@@ -63,7 +63,6 @@ jobs:
                 echo 'Validating Node.js environment...'
                 node --version
                 pnpm --version
-                yarn --version
                 tsc --version
                 eslint --version
                 prettier --version

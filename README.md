@@ -24,7 +24,7 @@ Frosted Flakes provides pre-configured, reproducible development environments fo
 
 ### 🟢 Node.js
 - **Runtime**: Node.js 22 (latest LTS)
-- **Package Manager**: pnpm (primary), yarn (secondary)
+- **Package Manager**: pnpm
 - **Tools**: TypeScript, ESLint, Prettier, Nodemon
 - **Build Tools**: Vite, Webpack
 
@@ -201,6 +201,16 @@ Contributions are welcome! To add a new template:
 2. Add a `flake.nix` with the development environment
 3. Update the main `flake.nix` to include your template
 4. Update this README
+
+### Git hooks
+
+A pre-push hook runs `./scripts/test-all.sh` so CI doesn't fail on push. After cloning, opt in once:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Bypass for an individual push with `git push --no-verify`.
 
 ## License
 

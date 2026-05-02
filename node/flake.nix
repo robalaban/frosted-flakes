@@ -25,25 +25,24 @@
 
           devShells.default = pkgs.mkShell {
             packages = with pkgs; [
-              # Node.js and package managers (pnpm as primary)
+              # Node.js and pnpm
               nodejs
-              nodePackages.pnpm
-              yarn
+              pnpm
 
               # Development tools
-              nodePackages.typescript
-              nodePackages.typescript-language-server
-              nodePackages.eslint
-              nodePackages.prettier
-              nodePackages.nodemon
+              typescript
+              typescript-language-server
+              eslint
+              prettier
+              nodemon
             ];
 
             shellHook = ''
               echo "🟢 Node.js development environment activated!"
               echo "Node.js version: $(node --version)"
               echo "pnpm version: $(pnpm --version)"
-              echo "Primary package manager: pnpm"
-              echo "Available tools: pnpm, yarn, typescript, eslint, prettier"
+              echo "Package manager: pnpm"
+              echo "Available tools: pnpm, typescript, eslint, prettier"
               echo ""
               echo "Quick start:"
               echo "  pnpm init                # Initialize new project"

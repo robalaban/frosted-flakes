@@ -200,7 +200,7 @@ To add a new language template:
 
 - **Package manager preferences**:
   - Rust: cargo (standard)
-  - Node.js: pnpm (primary), yarn (secondary)
+  - Node.js: pnpm
   - Python: uv (modern/fast)
   - Java: gradle and maven (both included)
 - **Shell hooks**: Always provide quick start commands that users can copy-paste

@@ -77,7 +77,6 @@ test_template() {
         set -e
         node --version &>/dev/null && \
         pnpm --version &>/dev/null && \
-        yarn --version &>/dev/null && \
         tsc --version &>/dev/null && \
         eslint --version &>/dev/null && \
         prettier --version &>/dev/null && \
